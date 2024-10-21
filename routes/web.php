@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin', function () {
+    return redirect('/K-Employee-Management-System/login');
+})->name('login');
+
+
+Route::get('/admin/register', function () {
+    return redirect('/K-Employee-Management-System/register');
+})->name('register');
