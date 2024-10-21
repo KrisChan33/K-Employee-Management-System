@@ -26,6 +26,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->profile()
             ->login()
             ->registration()
             ->font('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap')
