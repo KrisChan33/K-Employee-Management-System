@@ -88,8 +88,8 @@ class AdminPanelProvider extends PanelProvider
                     // ])
            ,
            
-                FilamentShieldPlugin::make()
-           
+                FilamentShieldPlugin::make() 
+                
                     ])
                     
         ->userMenuItems([
