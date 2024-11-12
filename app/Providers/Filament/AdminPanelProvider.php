@@ -3,9 +3,11 @@
 namespace App\Providers\Filament;
 
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Navigation\MenuItem;
 use Filament\Pages;
 use Filament\Panel;
@@ -30,7 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('K-Employee-Management-System')
-            ->profile()
+            // ->profile()
             ->login()
             ->brandName('K-Employee Management System')
             ->brandLogo('')
@@ -86,7 +88,7 @@ class AdminPanelProvider extends PanelProvider
                     // ->customProfileComponents([
                     //     \App\Livewire\CustomProfileComponent::class,
                     // ])
-                ,
+           ,
            
                 FilamentShieldPlugin::make()
            
