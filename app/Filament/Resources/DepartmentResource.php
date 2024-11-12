@@ -33,12 +33,11 @@ class DepartmentResource extends Resource
                         ->label('Description')
                         ->required()
                         ->placeholder('Enter the description of the department'),
-                    // Select::make('users_id')
-                    //     ->label('Users')
-                    //     ->relationship('users', 'name')
-                    //     ->multiple()
-                    //     ->required()
-                    //     ->placeholder('Select the users of the department'),
+                    Select::make('Users in the department')
+                        ->relationship('users', 'name')
+                        ->multiple()
+                        ->required()
+                        ->placeholder('Select the users of the department'),
                     Select::make('status')
                         ->label('Status')
                         ->options([
