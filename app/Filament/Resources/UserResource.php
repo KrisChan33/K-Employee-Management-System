@@ -72,7 +72,16 @@ class UserResource extends Resource
                             ->password()
                             ->hint('Enter the password')
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'This is the password of the user and will be used to login'),
-                        Select::make('roles')
+                        Select::make('department_id')
+                            ->label('Department')
+                            ->relationship('department', 'name')
+                            ->columnspan(4)
+                            ->hint('Select the department')
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'This is the Department of the user')
+                            ->preload()
+                            ->searchable(),
+
+                            Select::make('roles')
                             ->relationship('roles', 'name')
                             ->multiple()
                             ->hint('Select the role')

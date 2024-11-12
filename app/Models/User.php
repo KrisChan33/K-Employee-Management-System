@@ -28,6 +28,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     protected $fillable = [
         'name',
         'email',
+        'department_id',
         'password',
         'avatar_url',
         'custom_fields',
@@ -62,5 +63,10 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     public function canAccessPanel(Panel $panel): bool
     {
         return str_ends_with($this->email, '@gmail.com');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 }
