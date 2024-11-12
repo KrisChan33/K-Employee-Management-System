@@ -25,3 +25,9 @@ Route::get('/admin', function () {
 Route::get('/admin/register', function () {
     return redirect('/K-Employee-Management-System/register');
 })->name('register');
+
+
+
+Route::get('/K-Employee-Management-System', function () {
+    return redirect('/K-Employee-Management-System');
+})->name('dashboard');
