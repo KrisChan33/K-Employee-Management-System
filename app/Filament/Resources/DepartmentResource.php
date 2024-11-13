@@ -7,6 +7,7 @@ use App\Filament\Resources\DepartmentResource\RelationManagers;
 use App\Models\Department;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -56,10 +57,13 @@ class DepartmentResource extends Resource
                         ->placeholder('Select the status of the department')
                         ->columnSpan(6),
 
-                        Placeholder::make('Users Assigned to this Department')
-                        ->label('Users Assigned to this Department')
-                        ->content(fn (?Department $record): string => $record ? $record->users->pluck('name')->join(', ') : 'No users assigned')
+                        Fieldset::make('Employees Assigned to this Department')
+                        ->schema([
+                        Placeholder::make('')
+                        ->content(fn (?Department $record): string => $record ? $record->users->pluck('name')->join(', ') : 'No Employee assigned')
                         ->columnSpan(6),
+                      ])->columnSpan(6),
+
                 ])
                 ->columns(12),
         ]);
@@ -75,6 +79,11 @@ class DepartmentResource extends Resource
                 TextColumn::make('description')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('users.name')
+                     ->label('Employee Assigned')
+                    ->searchable()
+                    ->limit(25)
+                    ->sortable(),
                 TextColumn::make('status')
                     ->searchable()
                     ->sortable(),
@@ -84,6 +93,8 @@ class DepartmentResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

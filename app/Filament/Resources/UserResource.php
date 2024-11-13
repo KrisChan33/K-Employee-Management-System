@@ -80,8 +80,15 @@ class UserResource extends Resource
                             ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'This is the Department of the user')
                             ->preload()
                             ->searchable(),
-
-                            Select::make('roles')
+                        Select::make('position_id')
+                            ->label('Position')
+                            ->relationship('position', 'title')
+                            ->columnspan(4)
+                            ->hint('Select the position')
+                            ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'This is the Position of the user in the website')
+                            ->preload()
+                            ->searchable(),
+                        Select::make('roles')
                             ->relationship('roles', 'name')
                             ->multiple()
                             ->hint('Select the role')
@@ -93,6 +100,7 @@ class UserResource extends Resource
                 //    ])->compact(), 
                    //for another Section
             ])->columns(12),
+            
     ]);
     }
 

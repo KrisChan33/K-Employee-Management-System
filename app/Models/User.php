@@ -30,6 +30,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'name',
         'email',
         'department_id',
+        'position_id',
         'password',
         'avatar_url',
         'custom_fields',
@@ -69,5 +70,9 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     public function department()
     {
         return $this->belongsTo(Department::class);
+    }
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
     }
 }
