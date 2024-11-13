@@ -25,10 +25,10 @@ Let me describe the main entities and their relationships in the ERD:
 
 ​#### **Positions**
 
-- `id` (PK)
+<!-- - `id` (PK)
 - `title`
 - `created_at`
-- `updated_at`
+- `updated_at` -->
 
 ​#### **Attendances**
 
