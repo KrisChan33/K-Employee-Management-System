@@ -21,6 +21,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
+use Stephenjude\FilamentTwoFactorAuthentication\TwoFactorAuthenticationPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -29,10 +30,10 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('K-Employee-Management-System')
+            ->path('K-Employee-Management-Web-App')
             // ->profile()
             ->login()
-            ->brandName('K-Employee Management System')
+            ->brandName('K Employee Management Web App')
             ->brandLogo('')
             ->darkMode(true)
             ->registration()
@@ -87,10 +88,12 @@ class AdminPanelProvider extends PanelProvider
                     //     \App\Livewire\CustomProfileComponent::class,
                     // ])
            ,
-           
-                FilamentShieldPlugin::make() 
+                FilamentShieldPlugin::make(),
+                //2FA
+                TwoFactorAuthenticationPlugin::make()
+                    ->addTwoFactorMenuItem() // Add 2FA settings to user menu items
+                    ->enforceTwoFactorSetup(false) // Enforce 2FA setup for all users
                     ])
-                    
         ->userMenuItems([
             'profile' => MenuItem::make()
                 ->label(fn() => auth()->user()->name)
