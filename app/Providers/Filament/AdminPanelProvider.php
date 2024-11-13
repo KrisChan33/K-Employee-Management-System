@@ -22,7 +22,6 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 use Stephenjude\FilamentTwoFactorAuthentication\TwoFactorAuthenticationPlugin;
-
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -89,11 +88,12 @@ class AdminPanelProvider extends PanelProvider
                     // ])
            ,
                 FilamentShieldPlugin::make(),
+                
                 //2FA
                 TwoFactorAuthenticationPlugin::make()
-                    ->addTwoFactorMenuItem() // Add 2FA settings to user menu items
-                    ->enforceTwoFactorSetup(false) // Enforce 2FA setup for all users
-                    ])
+                ->addTwoFactorMenuItem() // Add 2FA settings to user menu items
+                ->enforceTwoFactorSetup(false), // Enforce 2FA setup for all users
+        ])
         ->userMenuItems([
             'profile' => MenuItem::make()
                 ->label(fn() => auth()->user()->name)
@@ -103,7 +103,6 @@ class AdminPanelProvider extends PanelProvider
                 // ->visible(function (): bool {
                 //     return auth()->user()->company()->exists();
                 // }),
-        ])
-                    ;
+        ]);
             }
 }

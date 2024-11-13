@@ -18,15 +18,18 @@ Route::get('/', function () {
 });
 
 Route::get('/admin', function () {
-    return redirect('/K-Employee-Management-System/login');
+    return redirect('/K-Employee-Management-Web-App/login');
 })->name('login');
 
-
 Route::get('/admin/register', function () {
-    return redirect('/K-Employee-Management-System/register');
+    return redirect('/K-Employee-Management-Web-App/register');
 })->name('register');
 
-
 Route::get('/dashboard', function () {
-    return redirect('/K-Employee-Management-System');
+    return redirect('/K-Employee-Management-Web-App');
 })->name('dashboard');
+
+
+Route::get('/home', function () {
+    return redirect('/');
+})->name('home');
