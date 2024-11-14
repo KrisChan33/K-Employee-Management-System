@@ -74,7 +74,7 @@ class AttendancesResource extends Resource
         return $table
             ->columns([
             TextColumn::make('users.name')
-                 ->label('Employee Attended')
+                ->label('Employee Attended')
                 ->searchable()
                 ->limit(25)
                 ->sortable(),
