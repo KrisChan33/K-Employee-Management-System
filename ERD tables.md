@@ -5,7 +5,7 @@ Let me describe the main entities and their relationships in the ERD:
 
 ​#### **Employees**
 
-- `id` (PK)
+<!-- - `id` (PK)
 - `first_name`
 - `last_name`
 - `email` (unique)
@@ -14,7 +14,7 @@ Let me describe the main entities and their relationships in the ERD:
 - `position_id` (FK -> Positions)
 - `hire_date`
 - `created_at`
-- `updated_at`
+- `updated_at` -->
 
 ​#### **Departments**
 <!-- 
@@ -32,32 +32,32 @@ Let me describe the main entities and their relationships in the ERD:
 
 ​#### **Attendances**
 
-- `id` (PK)
+<!-- - `id` (PK)
 - `employee_id` (FK -> Employees)
 - `date`
 - `status` (present, absent, late, leave)
 - `created_at`
-- `updated_at`
+- `updated_at` -->
 
 ​#### **Payrolls**
 
-- `id` (PK)
+<!-- - `id` (PK)
 - `employee_id` (FK -> Employees)
 - `salary`
 - `paid_on`
 - `created_at`
-- `updated_at`
+- `updated_at` -->
 
 ​#### **Leave Requests**
 
-- `id` (PK)
+<!-- - `id` (PK)
 - `employee_id` (FK -> Employees)
 - `start_date`
 - `end_date`
 - `status` (pending, approved, rejected)
 - `reason`
 - `created_at`
-- `updated_at`
+- `updated_at` -->
 
 ​#### **Performance Reviews**
 
@@ -70,7 +70,6 @@ Let me describe the main entities and their relationships in the ERD:
 - `updated_at`
 
 ​### 4. **Visual Representation of the ERD**
-
 Here’s a rough text-based representation of how your ERD will look:
 
 yaml

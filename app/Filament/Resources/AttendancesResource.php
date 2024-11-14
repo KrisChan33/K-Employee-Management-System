@@ -84,7 +84,8 @@ class AttendancesResource extends Resource
                 ->label('Status'),
             TextColumn::make('date')
                 ->searchable()
-                ->sortable()
+                    ->date()
+                    ->sortable()
                 ->label('Date'),
             ])
             ->filters([
