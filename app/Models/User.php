@@ -90,5 +90,10 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     {
         return $this->hasMany(LeaveRequest::class);
     }
+
+    public function performanceReviews()
+    {
+        return $this->hasMany(PerformanceReviews::class);
+    }
     
 }

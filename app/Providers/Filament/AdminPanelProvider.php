@@ -2,11 +2,19 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\AttendancesResource;
+use App\Filament\Resources\DepartmentResource;
+use App\Filament\Resources\LeaveRequestResource;
+use App\Filament\Resources\PayrollsResource;
+use App\Filament\Resources\PerformanceReviewsResource;
+use App\Filament\Resources\UserResource;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -63,7 +71,6 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            
             ->plugins([
                 FilamentEditProfilePlugin::make()
                     ->slug('my-profile')
@@ -104,5 +111,5 @@ class AdminPanelProvider extends PanelProvider
                 //     return auth()->user()->company()->exists();
                 // }),
         ]);
-            }
-}
+        }
+    }

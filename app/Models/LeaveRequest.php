@@ -11,15 +11,24 @@ class LeaveRequest extends Model
     use HasFactory;
 
     protected $fillable = [
-        'users_id',
+        'user_id',
         'start_date',
         'end_date',
         'status',
         'reason',
-        'status',
     ];
 
-    public function users():BelongsTo
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->user_id = auth()->id();
+            $model->status = 'Pending';
+        });
+    }
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

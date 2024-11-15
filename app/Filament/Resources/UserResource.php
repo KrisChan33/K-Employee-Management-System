@@ -4,10 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\Attendances;
+use App\Models\Position;
 use App\Models\User;
 use Faker\Provider\ar_EG\Text;
 use Filament\Actions\DeleteAction;
 use Filament\Forms;
+use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
@@ -29,9 +33,13 @@ use Illuminate\Support\Facades\Hash;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
-    protected static ?string $navigationGroup = 'User Management';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    // protected static ?string $navigationGroup = 'User Management';
+    protected static ?string $navigationParentItem = 'Departments';
+    protected static ?string $title = 'Employees';
+    protected static ?string $navigationGroup = 'Human Resources';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?int $sort = 2;
+    
     public static function form(Form $form): Form
     {
         return $form
@@ -101,6 +109,23 @@ class UserResource extends Resource
                    //for another Section
             ])->columns(12),
             
+            Fieldset::make()
+            ->schema([
+                Placeholder::make('Total Attended')
+                ->content(fn (?User $record): string => $record ? $record->attendances->pluck('user_id' !='status', 'Absent')->count( ) : 'No Employee assigned'),
+                
+                Placeholder::make('Absent')
+                ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Absent')->count() : 'No attendances recorded'),
+                
+                Placeholder::make('Present')
+                    ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Present')->count() : 'No attendances recorded'),
+            
+                Placeholder::make('Late')
+                    ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Late')->count() : 'No attendances recorded'),
+                Placeholder::make('Early')
+                    ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Early')->count() : 'No attendances recorded'),
+            
+                    ])->columns(5),
     ]);
     }
 

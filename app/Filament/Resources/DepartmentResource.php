@@ -25,8 +25,12 @@ class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationGroup = 'Human Resources';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
+    
+    protected static ?int $sort = 1;
+    protected static ?int $navigationSort = 1;
+    
     public static function form(Form $form): Form
     {
         return $form
@@ -56,7 +60,6 @@ class DepartmentResource extends Resource
                         ->required()
                         ->placeholder('Select the status of the department')
                         ->columnSpan(6),
-
                         Fieldset::make('Employees Assigned to this Department')
                         ->schema([
                         Placeholder::make('')
@@ -75,9 +78,11 @@ class DepartmentResource extends Resource
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
+                    ->icon('heroicon-s-user')
                     ->sortable(),
                 TextColumn::make('description')
                     ->searchable()
+                    ->icon('heroicon-s-chat-bubble-bottom-center-text')
                     ->sortable(),
                 TextColumn::make('users.name')
                      ->label('Employee Assigned')
@@ -86,6 +91,7 @@ class DepartmentResource extends Resource
                     ->sortable(),
                 TextColumn::make('status')
                     ->searchable()
+                    ->icon('heroicon-s-clipboard-document-list')
                     ->sortable(),
             ])
             ->filters([

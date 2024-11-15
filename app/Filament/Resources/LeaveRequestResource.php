@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\LeaveRequestResource\Pages;
 use App\Filament\Resources\LeaveRequestResource\RelationManagers;
 use App\Models\LeaveRequest;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
@@ -15,34 +16,40 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class LeaveRequestResource extends Resource
 {
     protected static ?string $model = LeaveRequest::class;
+    protected static ?string $navigationGroup='Leave Management';
+    protected static ?string $label = 'Leave Requests Controller';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-left-start-on-rectangle';
+    protected static ?int $sort = 6;
+    protected static ?int $navigationSort = 6;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Section::make('Leave Request Details')
                 ->schema([
-                    Select::make('users_id')
+                    Select::make('user_id')
                         ->label('Employee')
-                        ->relationship('users', 'name')
+                        ->relationship('user', 'name')
                         ->required()
                         ->columnSpan(6),
                     Select::make('status')
                         ->label('Status')
                         ->options([
-                            'pending' => 'Pending',
-                            'approved' => 'Approved',
-                            'rejected' => 'Rejected',
+                            'Pending' => 'Pending',
+                            'Approved' => 'Approved',
+                            'Rejected' => 'Rejected',
                         ])
                         ->required()
                         ->columnSpan(6),
@@ -70,24 +77,34 @@ class LeaveRequestResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('users.name')
+                TextColumn::make('user.name')
                     ->label('Employee')
+                    ->icon('heroicon-s-user')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('reason')
                     ->searchable()
+                    ->icon('heroicon-s-chat-bubble-bottom-center-text')
                     ->limit(50)
                     ->sortable(),
                 TextColumn::make('start_date')
                     ->searchable()
+                    ->icon('heroicon-s-calendar')
                     ->date()
                     ->sortable(),
                 TextColumn::make('end_date')
                     ->searchable()
+                    ->icon('heroicon-s-calendar')
                     ->date()
                     ->sortable(),
-                TextColumn::make('status')
+                SelectColumn::make('status')
                     ->searchable()
+                    ->options([
+                        'Pending' => 'Pending',
+                        'Approved' => 'Approved',
+                        'Rejected' => 'Rejected',
+                    ])
+                    ->selectablePlaceholder(false)
                     ->sortable(),
             ])
             ->filters([
@@ -118,4 +135,11 @@ class LeaveRequestResource extends Resource
             'edit' => Pages\EditLeaveRequest::route('/{record}/edit'),
         ];
     }
+
+    public static function canViewAny(): bool
+    {
+        $user = User::find(Auth::id());
+        return Auth::check() && Auth::user() == $user->hasRole('super_admin');
+    }
+
 }

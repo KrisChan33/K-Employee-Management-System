@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PayrollsResource\Pages;
-use App\Filament\Resources\PayrollsResource\RelationManagers;
+use App\Filament\Resources\PayrollEmployeeResource\Pages;
+use App\Filament\Resources\PayrollEmployeeResource\RelationManagers;
+use App\Models\PayrollEmployee;
 use App\Models\Payrolls;
 use App\Models\User;
 use Filament\Forms;
@@ -17,46 +18,24 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Date;
 
-class PayrollsResource extends Resource
+class PayrollEmployeeResource extends Resource
 {
     protected static ?string $model = Payrolls::class;
     protected static ?string $navigationGroup = 'Payroll Management';
-    protected static ?string $label = 'Payrolls Controller';
     protected static ?string $navigationIcon = 'heroicon-o-chart-pie';
     protected static ?int $sort = 5;
     protected static ?int $navigationSort = 5;
-    
+
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Section::make('Payroll Details')
-                ->schema([
-                    Select::make('user_id')
-                        ->relationship('user', 'name')
-                        ->label('Employee')
-                        ->required()
-                        ->placeholder('Select the employee')
-                        ->columnSpan(6),
-                    TextInput::make('salary')
-                        ->label('Salary')
-                        ->required()
-                        ->placeholder('Enter the salary')
-                        ->columnSpan(6),
-                    DateTimePicker::make('paid_at')
-                        ->label('Paid At')
-                        ->required()
-                        ->placeholder('Select the date')
-                        ->columnSpan(6),
-                ])
-                ->columns(12),
-        ]);
+              ->schema([
+            ]);
     }
+
     public static function table(Table $table): Table
     {
         return $table
@@ -101,17 +80,11 @@ class PayrollsResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPayrolls::route('/'),
-            'create' => Pages\CreatePayrolls::route('/create'),
-            'edit' => Pages\EditPayrolls::route('/{record}/edit'),
+            'index' => Pages\ListPayrollEmployees::route('/'),
+            'create' => Pages\CreatePayrollEmployee::route('/create'),
+            'edit' => Pages\EditPayrollEmployee::route('/{record}/edit'),
         ];
     }
 
-
-    public static function canViewAny(): bool
-    {
-        $user = User::find(Auth::id());
-
-        return Auth::check() && Auth::user() == $user->hasRole('super_admin');
-    }
+  
 }

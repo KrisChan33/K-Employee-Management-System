@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payrolls', function (Blueprint $table) {
+        Schema::create('performance_reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->decimal('salary');
-            $table->date('paid_at')->nullable();
+            $table->foreignId('user_id')->constrained();
+            $table->integer('rating');
+            $table->date('review_date');
+            $table->text('feedback');
             $table->timestamps();
         });
     }
@@ -25,6 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payrolls');
+        //
     }
 };
+
+

@@ -25,8 +25,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class PositionResource extends Resource
 {
     protected static ?string $model = Position::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Human Resources';
+    protected static ?string $navigationParentItem = 'Departments';
+    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+    protected static ?int $sort = 3;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {
@@ -64,12 +67,15 @@ class PositionResource extends Resource
             ->columns([
                 TextColumn::make('title')
                 ->searchable()
+                ->icon('heroicon-s-rectangle-stack')
                 ->sortable(),
             TextColumn::make('description')
                 ->searchable()
+                ->icon('heroicon-s-chat-bubble-bottom-center-text')
                 ->sortable(),
             TextColumn::make('users.name')
               ->label('Employee Assigned')
+              ->icon('heroicon-o-user')
                 ->searchable()
                 ->limit(25)
                 ->sortable(),

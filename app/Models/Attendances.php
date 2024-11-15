@@ -8,16 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class Attendances extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'users_id',
+        'user_id',
         'date',
         'status',
         // 'time_in',
         // 'time_out',
     ];
 
-    public function users(){
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function ($attendance) {
+            $attendance->user_id = auth()->id();
+            $attendance->date = now();
+        });
+    }
+
+    public function user(){
         return $this->belongsTo(User::class);
     }
 }

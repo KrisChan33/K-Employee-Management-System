@@ -2,13 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AttendancesResource\Pages;
-use App\Filament\Resources\AttendancesResource\RelationManagers;
+use App\Filament\Resources\AttendanceemployeeResource\Pages;
+use App\Filament\Resources\AttendanceemployeeResource\RelationManagers;
+use App\Models\Attendanceemployee;
 use App\Models\Attendances;
-use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\BelongsToSelect;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Section;
@@ -16,35 +14,28 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\Auth;
 
-class AttendancesResource extends Resource
+
+                                                                   //for Employee Only
+
+
+class AttendanceemployeeResource extends Resource
 {
     protected static ?string $model = Attendances::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
     protected static ?string $navigationGroup = 'Attendance Management';
-    protected static ?string $label = 'Attendances Controller';
     protected static ?int $sort = 4;
     protected static ?int $navigationSort = 4;
-
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
+        ->schema([
             Section::make()->schema([
-                Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required()
-                    ->preload()
-                    ->label('User')
-                    ->columnSpanFull(),
                 Select::make('status')
                     ->options([
                         'absent' => 'Absent',
@@ -53,7 +44,7 @@ class AttendancesResource extends Resource
                         'early' => 'Early',
                     ])
                     ->required()
-                    ->columnSpanFull()
+                    ->columnSpan(1)
                     ->label('Status'),
                 // Forms\Components\Timepicker::make('time_in')
                 //     ->required()
@@ -63,17 +54,14 @@ class AttendancesResource extends Resource
                 //     ->required()
                 //     ->sortable()
                 //     ->label('Time Out'),
-                ])->columnSpan(1)->columns(2),
-
-                Fieldset::make('')
-                ->schema([
+               
                 DateTimePicker::make('date')
                     ->required()
+                    ->columnSpan(1)
                     ->readOnly()
                     ->default(now())
                     ->label('Date and Time'),
-                ])->columnspan(1),
-
+                ])->columns(2)->columnSpan(2),
 
 
                 
@@ -83,25 +71,17 @@ class AttendancesResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+        ->query(fn(Attendances $query) => $query->where('user_id', auth()->id()))
             ->columns([
-            TextColumn::make('user.name')
-                ->label('Attended')
+            TextColumn::make('status')
                 ->searchable()
-                ->icon('heroicon-s-user')
-                ->limit(25)
-                ->sortable(),
-            SelectColumn::make('status')
-                ->searchable()
-                ->options([
-                    'absent' => 'Absent',
-                    'present' => 'Present',
-                    'late' => 'Late',
-                    'early' => 'Early',
-                ])
+                ->icon('heroicon-s-clipboard-document-list')
                 ->sortable()
+                ->columnSpanFull()
                 ->label('Status'),
             TextColumn::make('date')
                 ->icon('heroicon-s-calendar')
+                ->columnSpanFull()
                 ->searchable()
                     ->dateTime()
                     ->sortable()
@@ -130,17 +110,9 @@ class AttendancesResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAttendances::route('/'),
-            'create' => Pages\CreateAttendances::route('/create'),
-            'edit' => Pages\EditAttendances::route('/{record}/edit'),
+            'index' => Pages\ListAttendanceemployees::route('/'),
+            'create' => Pages\CreateAttendanceemployee::route('/create'),
+            'edit' => Pages\EditAttendanceemployee::route('/{record}/edit'),
         ];
-    }
-
-    
-    public static function canViewAny(): bool
-    {
-        $user = User::find(Auth::id());
-
-        return Auth::check() && Auth::user() == $user->hasRole('super_admin');
     }
 }
