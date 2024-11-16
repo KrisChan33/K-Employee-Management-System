@@ -5,7 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AttendancesResource\Pages;
 use App\Filament\Resources\AttendancesResource\RelationManagers;
 use App\Models\Attendances;
+use App\Models\Department;
 use App\Models\User;
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Forms\Components\BelongsToSelect;
 use Filament\Forms\Components\DatePicker;
@@ -18,6 +20,8 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -90,6 +94,12 @@ class AttendancesResource extends Resource
                 ->icon('heroicon-s-user')
                 ->limit(25)
                 ->sortable(),
+            TextColumn::make('date')
+                ->icon('heroicon-s-calendar')
+                ->searchable()
+                    ->dateTime()
+                    ->sortable()
+                ->label('Date'),
             SelectColumn::make('status')
                 ->searchable()
                 ->options([
@@ -100,20 +110,66 @@ class AttendancesResource extends Resource
                 ])
                 ->sortable()
                 ->label('Status'),
-            TextColumn::make('date')
-                ->icon('heroicon-s-calendar')
-                ->searchable()
-                    ->dateTime()
-                    ->sortable()
-                ->label('Date'),
             ])
             ->filters([
-                //
-            ])
+                SelectFilter::make('user_id')
+                    ->relationship('user', 'name')
+                    ->label('User')
+                    ->options(
+                        User::pluck('name', 'id')->toArray()
+                    ),
+
+                SelectFilter::make('status')
+                    ->options([
+                        'absent' => 'Absent',
+                        'present' => 'Present',
+                        'late' => 'Late',
+                        'early' => 'Early',
+                    ]),
+
+                    SelectFilter::make('date')
+                    ->options([
+                        'today' => 'Today',
+                        'yesterday' => 'Yesterday',
+                        'this_week' => 'This Week',
+                        'last_week' => 'Last Week',
+                        'this_month' => 'This Month',
+                        'last_month' => 'Last Month',
+                        'this_year' => 'This Year',
+                        'last_year' => 'Last Year',
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        $value = $data['value'];
+                        switch ($value) {
+                            case 'today':
+                                return $query->whereDate('date', Carbon::today());
+                            case 'yesterday':
+                                return $query->whereDate('date', Carbon::yesterday());
+                            case 'this_week':
+                                return $query->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+                            case 'last_week':
+                                return $query->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->subWeek()->endOfWeek()]);
+                            case 'this_month':
+                                return $query->whereMonth('date', Carbon::now()->month)
+                                    ->whereYear('date', Carbon::now()->year);
+                            case 'last_month':
+                                return $query->whereMonth('date', Carbon::now()->subMonth()->month)
+                                    ->whereYear('date', Carbon::now()->subMonth()->year);
+                            case 'this_year':
+                                return $query->whereYear('date', Carbon::now()->year);
+                            case 'last_year':
+                                return $query->whereYear('date', Carbon::now()->subYear()->year);
+                            default:
+                                return $query;
+                        }
+                    }),
+
+                ], layout: FiltersLayout::AboveContent)->filtersFormColumns(3)
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
+                
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),

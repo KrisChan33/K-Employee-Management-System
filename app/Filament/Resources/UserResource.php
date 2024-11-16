@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\Attendances;
+use App\Models\Department;
 use App\Models\Position;
 use App\Models\User;
 use Faker\Provider\ar_EG\Text;
@@ -25,6 +26,8 @@ use Filament\Tables\Actions\ForceDeleteAction;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Enums\FiltersLayout;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -44,6 +47,23 @@ class UserResource extends Resource
     {
         return $form
         ->schema([
+            Fieldset::make()
+            ->schema([
+                Placeholder::make('Total Attended')
+                ->content(fn (?User $record): string => $record ? $record->attendances->pluck('user_id' !='status', 'Absent')->count( ) : 'No Employee assigned'),
+                
+                Placeholder::make('Absent')
+                ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Absent')->count() : 'No attendances recorded'),
+                
+                Placeholder::make('Present')
+                    ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Present')->count() : 'No attendances recorded'),
+            
+                Placeholder::make('Late')
+                    ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Late')->count() : 'No attendances recorded'),
+                Placeholder::make('Early')
+                    ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Early')->count() : 'No attendances recorded'),
+                    ])->columns(5),
+
             // Split::make([
                 Section::make('User Information')
                     ->schema([
@@ -109,23 +129,7 @@ class UserResource extends Resource
                    //for another Section
             ])->columns(12),
             
-            Fieldset::make()
-            ->schema([
-                Placeholder::make('Total Attended')
-                ->content(fn (?User $record): string => $record ? $record->attendances->pluck('user_id' !='status', 'Absent')->count( ) : 'No Employee assigned'),
-                
-                Placeholder::make('Absent')
-                ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Absent')->count() : 'No attendances recorded'),
-                
-                Placeholder::make('Present')
-                    ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Present')->count() : 'No attendances recorded'),
-            
-                Placeholder::make('Late')
-                    ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Late')->count() : 'No attendances recorded'),
-                Placeholder::make('Early')
-                    ->content(fn (?User $record): string => $record ? $record->attendances->where('status', 'Early')->count() : 'No attendances recorded'),
-            
-                    ])->columns(5),
+         
     ]);
     }
 
@@ -186,15 +190,44 @@ class UserResource extends Resource
                 ->toggleable(),
             ])
             ->filters([
-        //                
-            ])
+
+                SelectFilter::make('department_id')
+                ->label('Department')
+                ->relationship('department', 'name')
+                ->options(
+                    Department::pluck('name', 'id')->toArray()
+                ),
+
+            SelectFilter::make('position_id')
+                ->label('Position')
+                ->relationship('position', 'title')
+                ->options(
+                    Position::pluck('title', 'id')->toArray()
+                ),
+
+            SelectFilter::make('has_avatar')
+                ->label('Has Avatar')
+                ->options([
+                    'yes' => 'Yes',
+                    'no' => 'No',
+                ])
+                ->query(function (Builder $query, array $data) {
+                    if ($data['value'] === 'yes') {
+                        return $query->whereNotNull('avatar_url');
+                    } else {
+                        return $query->whereNull('avatar_url');
+                    }
+                }),
+
+            ])->filtersFormColumns(3)
+            
             ->actions([
                 ActionGroup::make([
                     ViewAction::make(),
                     EditAction::make(),
                     DeleteAction::make(),
                 ]),
-            ] , position: ActionsPosition::BeforeCells)
+            ])
 
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

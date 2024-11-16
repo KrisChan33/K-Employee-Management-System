@@ -265,5 +265,6 @@ Employee: View their own performance reviews and feedback.
 
 GENERATE REPORTin  Attendance : Filter, Export, Widgets
 Generate Payroll:
+
 Generate Attendance Reports: Generate reports on employee attendance.
 Employee
