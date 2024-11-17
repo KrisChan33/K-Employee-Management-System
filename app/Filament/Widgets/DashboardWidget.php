@@ -82,8 +82,11 @@ class DashboardWidget extends BaseWidget
             ];
     }
     
-    // public static function canView(): bool
-    // {
-    //     return auth()->user()->role->role == 'admin'; // || auth()->user()->role->role === 'employee';
-    // }
+    public static function canView(): bool
+    {
+     
+        $user = User::find(auth()->user()->id);
+        
+        return $user->hasRole('super_admin');
+    }
 }

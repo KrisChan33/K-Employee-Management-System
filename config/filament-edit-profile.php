@@ -10,14 +10,14 @@ return [
             'rules' => 'required|string|max:255',
         ],
         'Middle Initial' => [
-            'type' => 'password',
+            'type' => 'text',
             'label' => 'Middile Initial',
             'placeholder' => '',
             'required' => true,
             'rules' => 'required|string|max:255',
         ],
         'Last Name' => [
-            'type' => 'password',
+            'type' => 'text',
             'label' => 'Last Name',
             'placeholder' => '',
             'required' => true,

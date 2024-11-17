@@ -88,7 +88,7 @@ class AdminPanelProvider extends PanelProvider
                     // ->canAccess(fn () => auth()->user()->id === 1)
                     ->shouldRegisterNavigation(true)
                     ->shouldShowDeleteAccountForm(true)
-                    ->shouldShowSanctumTokens()
+                    // ->shouldShowSanctumTokens()
                     ->shouldShowBrowserSessionsForm(
 
                         // fn() => auth()->user()->id === 1, //optional
@@ -99,7 +99,7 @@ class AdminPanelProvider extends PanelProvider
                     // ->customProfileComponents([
                     //     \App\Livewire\CustomProfileComponent::class,
                     // ])
-           ,
+             ,
                 FilamentShieldPlugin::make(),
                 
                 //2FA
