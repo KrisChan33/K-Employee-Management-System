@@ -12,7 +12,6 @@ This document provides an overview of the application's features, including user
  Light Mode: ![Dark Mode](ReadmeImages/image-1.png)
  Registration Page: ![Registration](ReadmeImages/image-2.png)
 
-
 # Admin Panel
 
 ### Features
