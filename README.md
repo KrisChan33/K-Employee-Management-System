@@ -19,7 +19,7 @@ The Admin Panel is accessible to the super admin and includes:
 
 - **Super Admin Navigation Groups**:
   - User Management
-  - Filament Shield (Roles & Permissions)
+  - Spatie (Roles & Permissions)
 
 - **User Roles**:
   - Super Admin (controller access)
