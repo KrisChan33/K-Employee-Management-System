@@ -14,11 +14,12 @@ use Filament\Panel;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Stephenjude\FilamentTwoFactorAuthentication\TwoFactorAuthenticatable;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar
 
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPanelShield;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasPanelShield, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +29,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     protected $fillable = [
         'name',
         'email',
+        'department_id',
+        'position_id',
         'password',
         'avatar_url',
         'custom_fields',
@@ -63,4 +66,34 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     {
         return str_ends_with($this->email, '@gmail.com');
     }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    public function attendances()
+    {
+        return $this->hasMany(Attendances::class);
+    }
+
+    public function payrolls()
+    {
+        return $this->hasMany(Payrolls::class);
+    }
+
+    public function leaveRequests()
+    {
+        return $this->hasMany(LeaveRequest::class);
+    }
+
+    public function performanceReviews()
+    {
+        return $this->hasMany(PerformanceReviews::class);
+    }
+    
 }

@@ -2,12 +2,23 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Dashboard as PagesDashboard;
+use App\Filament\Resources\AttendancesResource;
+use App\Filament\Resources\DepartmentResource;
+use App\Filament\Resources\LeaveRequestResource;
+use App\Filament\Resources\PayrollsResource;
+use App\Filament\Resources\PerformanceReviewsResource;
+use App\Filament\Resources\UserResource;
+use App\Filament\Widgets\DashboardWidget;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Navigation\MenuItem;
+use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 use Filament\Pages;
+use Filament\Pages\Dashboard as FilamentPagesDashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -21,7 +32,8 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
-
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
+use Stephenjude\FilamentTwoFactorAuthentication\TwoFactorAuthenticationPlugin;
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
@@ -29,10 +41,10 @@ class AdminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('admin')
-            ->path('K-Employee-Management-System')
+            ->path('K-Employee-Management-Web-App')
             // ->profile()
             ->login()
-            ->brandName('K-Employee Management System')
+            ->brandName('K Employee Management Web App')
             ->brandLogo('')
             ->darkMode(true)
             ->registration()
@@ -43,11 +55,13 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
-                Pages\Dashboard::class,
+                // Pages\Dashboard::class,
+                PagesDashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
+                DashboardWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -63,7 +77,6 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            
             ->plugins([
                 FilamentEditProfilePlugin::make()
                     ->slug('my-profile')
@@ -75,7 +88,7 @@ class AdminPanelProvider extends PanelProvider
                     // ->canAccess(fn () => auth()->user()->id === 1)
                     ->shouldRegisterNavigation(true)
                     ->shouldShowDeleteAccountForm(true)
-                    ->shouldShowSanctumTokens()
+                    // ->shouldShowSanctumTokens()
                     ->shouldShowBrowserSessionsForm(
 
                         // fn() => auth()->user()->id === 1, //optional
@@ -86,12 +99,14 @@ class AdminPanelProvider extends PanelProvider
                     // ->customProfileComponents([
                     //     \App\Livewire\CustomProfileComponent::class,
                     // ])
-           ,
-           
-                FilamentShieldPlugin::make()
-           
-                    ])
-                    
+             ,
+                FilamentShieldPlugin::make(),
+                
+                //2FA
+                TwoFactorAuthenticationPlugin::make()
+                ->addTwoFactorMenuItem() // Add 2FA settings to user menu items
+                ->enforceTwoFactorSetup(false), // Enforce 2FA setup for all users
+        ])
         ->userMenuItems([
             'profile' => MenuItem::make()
                 ->label(fn() => auth()->user()->name)
@@ -101,7 +116,6 @@ class AdminPanelProvider extends PanelProvider
                 // ->visible(function (): bool {
                 //     return auth()->user()->company()->exists();
                 // }),
-        ])
-                    ;
-            }
-}
+        ]);
+        }
+    }
