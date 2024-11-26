@@ -211,7 +211,7 @@ Refer to the [Database Wiki ](https://github.com/KrisChan33/K-Task-Management-We
 
 ## Requirements
 
-Ensure your system meets the following requirements before starting. For more details, see the [ Requirements Wiki](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/8.-Requirements).
+Ensure your system meets the following requirements before starting. For more details, see the [ Requirements Wiki](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/6.-Requirements).
 
 ## Instructions
 Complete installation and setup instructions are available in the [Setup Requirements Wiki.](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/7.-Instructions)
