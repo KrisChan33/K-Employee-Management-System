@@ -204,17 +204,17 @@ Users and Admin have similar profile-editing options as including photo manageme
 
 ---
 ## Default Credentials
-For an overview of the Default Credential and its navigation options, visit the Default [Default Credentials Wiki](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/6.-Default-Credentials).
+For an overview of the Default Credential and its navigation options, visit the Default [Default Credentials Wiki](https://github.com/KrisChan33/K-Employee-Management-Web-App/wiki/6.-Default-Credentials).
 
 ## Database and Zip File
-Refer to the [Database Wiki ](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/7.-Database) for instructions on importing the database and extracting resources.
+Refer to the [Database Wiki ](https://github.com/KrisChan33/K-Employee-Management-Web-App/wiki/7.-Database) for instructions on importing the database and extracting resources.
 
 ## Requirements
 
-Ensure your system meets the following requirements before starting. For more details, see the [ Requirements Wiki](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/6.-Requirements).
+Ensure your system meets the following requirements before starting. For more details, see the [ Requirements Wiki](https://github.com/KrisChan33/K-Employee-Management-Web-App/wiki/8.-Requirements).
 
 ## Instructions
-Complete installation and setup instructions are available in the [Setup Requirements Wiki.](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/7.-Instructions)
+Complete installation and setup instructions are available in the [Setup Requirements Wiki.](https://github.com/KrisChan33/K-Employee-Management-Web-App/wiki/9.-Instructions)
 
 ## Troubleshooting
 - If you encounter missing `.env` or permissions errors, double-check file paths and server requirements.
