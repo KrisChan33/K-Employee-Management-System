@@ -1,6 +1,5 @@
 # Application Overview
-This document provides an overview of the application's features, including user roles, project management, and navigation options.
-
+This document provides an overview of the application overview. For detailed information, visit the [Wiki](https://github.com/KrisChan33/K-Employee-Management-Web-App/wiki).
 ---
 ## Home Page
 ![alt text](ReadmeImages/Homepage.png)
@@ -204,71 +203,25 @@ Users and Admin have similar profile-editing options as including photo manageme
 
 ---
 ## Default Credentials
-
-### Super Admin
-- **Email:** superadmin@gmail.com
-- **Password:** K-is-king
-
-### User
-- **Email:** employee@gmail.com
-- **Password:** K-is-dev
+For an overview of the Default Credential and its navigation options, visit the Default [Default Credentials Wiki](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/6.-Default-Credentials).
 
 ## Database and Zip File
-
-### Database
-The database file is located in the `database` directory. You can import it into your database management system.
-
-- **File:** `Database of K-Employee-Management-Web-App/k-task-management-web-app-database.sql`
-
-### Zip File
-The zip file containing additional resources is located in the `resources` directory.
-
-- **File:** `you can download a zip file here in github`
+Refer to the [Database Wiki ](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/7.-Database) for instructions on importing the database and extracting resources.
 
 ## Requirements
 
-Before you begin, ensure you have met the following requirements:
-
-- **PHP**: ^8.1
-- **Composer**: Latest version
-- **Node.js**: Latest LTS version (if using frontend assets)
-- **npm**: Latest version (if using frontend assets)
-- **Database**: MySQL or any other supported database
+Ensure your system meets the following requirements before starting. For more details, see the [ Requirements Wiki](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/8.-Requirements).
 
 ## Instructions
-
-### 1. Clone the repository:
-  ```bash
-   git clone https://github.com/KrisChan33/K-Task-Management-Web-App
-  ```
----
-### 2. Import the Database
- Import the database file into your database management system for Default Permissions,  Run Migration if not.
----
-### 3. Extract the Zip File
- Extract the zip file to access additional resources.
-
----
-
-### 4. Navigate to the Project Directory.
-Open your terminal and navigate to the folder where you cloned the project:
-```bash
-cd K-Task-Management-Web-App
-```
-
----
-### 5 - 10 to be Followed
-- Currently Working
----
+Complete installation and setup instructions are available in the [Setup Requirements Wiki.](https://github.com/KrisChan33/K-Task-Management-Web-App/wiki/7.-Instructions)
 
 ## Troubleshooting
 - If you encounter missing `.env` or permissions errors, double-check file paths and server requirements.
 - If `php artisan` commands fail, ensure PHP and Composer are installed and properly configured.
 
----
 
 ## License
-
-This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+ This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+ 
 ---
 End of document.
