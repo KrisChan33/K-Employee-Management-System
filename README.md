@@ -1,5 +1,6 @@
 # Application Overview
 This document provides an overview of the application overview. For detailed information, visit the [Wiki](https://github.com/KrisChan33/K-Employee-Management-Web-App/wiki).
+
 ---
 ## Home Page
 ![alt text](ReadmeImages/Homepage.png)
