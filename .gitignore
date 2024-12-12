@@ -43,6 +43,6 @@ package.json
 
 # Application 
 /app
-# /config
+/config
 # /resources
 # /routes
