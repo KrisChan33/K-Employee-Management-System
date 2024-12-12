@@ -40,3 +40,9 @@ Thumbs.db
 composer.lock
 composer.json
 package.json
+
+# Application 
+/app
+# /config
+# /resources
+# /routes
